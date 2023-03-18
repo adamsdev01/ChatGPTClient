@@ -1,7 +1,76 @@
 ﻿@page "/"
 
+<PageTitle>Index</PageTitle>
+<br />
+<h2 style="text-align:center"><b>GPT-3 Model - Davinici</b></h2>
+<h4 style="text-align:center"><b>OpenAI Completions API</b></h4>
 
+<br />
 
-@code{
- 
+<div class="container">
+    <h5><b>Given a prompt, the model will return one or more predicted completions.</b></h5>
+</div>
+
+<div class="container">
+    <form>
+        <textarea @bind="prompt" style="height:100px"></textarea>
+
+        <button class="btn btn-success" @onclick="CallService">SUBMIT</button>
+        <br />
+        <br />
+        <br />
+        <br />
+        <label><b>RESPONSE</b></label>
+        <p>@response</p>
+        <br />
+        <br />
+        <br />
+        <br />
+    </form>
+</div>
+
+@code {
+    string Organization = "";
+    string ApiKey = "";
+    string prompt = "Write something...";
+    string response = "";
+
+    protected override void OnInitialized()
+    {
+        Organization = _configuration["OpenAIServiceOptions:Organization"] ?? "";
+        ApiKey = _configuration["OpenAIServiceOptions:ApiKey"] ?? "";
+    }
+
+    public async Task CallService()
+    {
+        // Gets OrganizationID and APIKey from secrets
+        var openAiService = new OpenAIService(new OpenAiOptions()
+        {
+            ApiKey = ApiKey,
+            Organization = Organization
+        });
+
+        // Pass the prompt to the service
+        var completionResult = await openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
+        {
+            Prompt = prompt,
+            MaxTokens = 5 // 5 words
+        },
+        Models.Davinci);
+
+        // Return result or error message
+        if (completionResult.Successful)
+        {
+            response = completionResult.Choices.FirstOrDefault()?.Text ?? "";
+        }
+        else
+        {
+            if (completionResult.Error == null)
+            {
+                response = "Unknow Error";
+            }
+
+            response = $"{completionResult.Error?.Code}: {completionResult.Error?.Message}";
+        }
+    }
 }

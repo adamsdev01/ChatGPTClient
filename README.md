@@ -1,6 +1,5 @@
 # OpenAI Text Completion
-Created a Blazor application that makes API calls to OpenAI GPT-3 model. In the app - the user submits a prompt to generate completion that attempts to match the context or pattern provided.
-### Prompt Design: Completion
+Created a Blazor application that makes API calls to OpenAI GPT-3 model. In the app - the user submits a prompt to generate text that attempts to match the context or pattern provided.
 # Stack
 - Blazor Server
 - Net Core 7

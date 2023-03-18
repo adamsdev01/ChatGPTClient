@@ -6,5 +6,5 @@ Created a Blazor application that makes API calls to OpenAI GPT-3 model. In the 
 - Net Core 7
 - OpenAI API
 - GPT-3 (Generative Pre-trained Transformer 3)
-- Model: Text-Davinci-003
+- Model: Davinci
 - Betalgo.OpenAI.GPT3 nuget pkg v6.8.0
